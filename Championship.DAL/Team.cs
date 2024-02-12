@@ -23,5 +23,7 @@ namespace Championship.DAL
         public int GoalsScored { get; set; }
 
         public int GoalsConceded { get; set; }
+
+        public List<Player>? players { get; set; }
     }
 }

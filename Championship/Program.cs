@@ -1,15 +1,18 @@
 ﻿using Championship.DAL;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Runtime.CompilerServices;
+using System.Security;
 
 namespace Championship
 {
-    internal class Program
+    public class Program
     {
 
         static public TeamContext con = new TeamContext();
 
         static public List<Team> teams = con.Teams.ToList();
+
+        static public List<Matches> matches = con.Matches.ToList();
 
 
         static void Main(string[] args)
@@ -21,6 +24,7 @@ namespace Championship
                 Console.WriteLine("1.Додати команду");
                 Console.WriteLine("2.Видалення команди");
                 Console.WriteLine("3.Інформація про існуючі команди");
+                Console.WriteLine("4.Інформація Про матчі");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -36,6 +40,9 @@ namespace Championship
                     case 3:
                         InfoAboutTeams();
                         break;
+                    case 4:
+                        MatchesInfo();
+                        break;
                     default:
                         break;
                 }
@@ -43,6 +50,101 @@ namespace Championship
             }
         }
 
+        private static void MatchesInfo()
+        {
+            bool IsMatchWorking = true;
+            while (IsMatchWorking)
+            {
+                Console.Clear();
+                Console.WriteLine("0.Вихід");
+                Console.WriteLine("1.Різниця забитих та пропущених голів для кожної команди");
+                Console.WriteLine("2.Повна інформація про матч");
+                Console.WriteLine("3.Інформація про матч у конкренту дату");
+                Console.WriteLine("4.Усі матчі конкретної команди");
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 0:
+                        IsMatchWorking = false;
+                        break; 
+                    case 1:
+                        DifferenceOfGoals(InfoAboutMatchByDate(false));
+                        break;
+                    case 2:
+                        InfoAboutMatch(InfoAboutMatchByDate(false));
+                        break; 
+                    case 3:
+                        InfoAboutMatchByDate(true);
+                        break;
+                    case 4:
+                        AllMatchesByTeam();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Console.Clear();
+        }
+
+        private static void AllMatchesByTeam()
+        {
+            Console.Clear();
+            Console.WriteLine("Введіть назву каманди");
+            string name = Console.ReadLine();
+            foreach (var item in matches)
+            {
+                if(name == item.Team1.Name || name == item.Team2.Name)
+                {
+                    InfoAboutMatch(item);
+                }
+            }
+        }
+
+        private static Matches InfoAboutMatchByDate(bool isInfo)
+        {
+            Console.Clear();
+            Console.WriteLine("Введіть дату");
+            DateTime date = Convert.ToDateTime(Console.ReadLine());
+
+            foreach (var item in matches)
+            {
+                if (item.Date == date && isInfo == false)
+                {
+                    return item;
+                }
+                else if (item.Date == date && isInfo == true)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Team1: {item.Team1}");
+                    Console.WriteLine($"Team2: {item.Team2}");
+                    Console.WriteLine($"Goals scored be team 1: {item.GoalsScoredByTeam1}");
+                    Console.WriteLine($"Goals scored be team 2: {item.GoalsScoredByTeam2}");
+                    Console.WriteLine($"Date: {item.Date}");
+                }
+            }
+            EndFunc();
+            return null;
+        }
+
+        private static void InfoAboutMatch(Matches matches)
+        {
+            Console.Clear();
+            Console.WriteLine($"Team1: {matches.Team1}");
+            Console.WriteLine($"Team2: {matches.Team2}");
+            Console.WriteLine($"Goals scored be team 1: {matches.GoalsScoredByTeam1}");
+            Console.WriteLine($"Goals scored be team 2: {matches.GoalsScoredByTeam2}");
+            Console.WriteLine($"Date: {matches.Date}");
+            EndFunc();
+        }
+
+        private static void DifferenceOfGoals(Matches matches)
+        {
+            Console.Clear();
+            Console.WriteLine($"Team1: {matches.GoalsScoredByTeam1 -  matches.Team1.GoalsConceded}");
+            Console.WriteLine($"Team2: {matches.GoalsScoredByTeam2 -  matches.Team2.GoalsConceded}");
+            EndFunc();
+        }
 
         private static void DeleteTeam(Team team)
         {
@@ -317,7 +419,7 @@ namespace Championship
             EndFunc();
         }
 
-        private static void TeamByName(string name)
+        private static void TeamByName(string? name)
         {
             Console.Clear();
             Console.Clear();
