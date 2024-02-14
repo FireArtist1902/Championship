@@ -1,7 +1,10 @@
 ﻿using Championship.DAL;
+using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using System.Runtime.CompilerServices;
 using System.Security;
+using Volo.Abp.Data;
 
 namespace Championship
 {
@@ -17,14 +20,18 @@ namespace Championship
 
         static void Main(string[] args)
         {
+            
+
             bool ProgramWorking = true;
             while (ProgramWorking)
             {
+                Console.Clear();
                 Console.WriteLine("0.Вихід");
                 Console.WriteLine("1.Додати команду");
                 Console.WriteLine("2.Видалення команди");
                 Console.WriteLine("3.Інформація про існуючі команди");
-                Console.WriteLine("4.Інформація Про матчі");
+                Console.WriteLine("4.Інформація про матчі");
+                Console.WriteLine("5.Інформація про гравців");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -61,6 +68,7 @@ namespace Championship
                 Console.WriteLine("2.Повна інформація про матч");
                 Console.WriteLine("3.Інформація про матч у конкренту дату");
                 Console.WriteLine("4.Усі матчі конкретної команди");
+                
                 int choice = Convert.ToInt32(Console.ReadLine());
 
                 switch (choice)
@@ -200,6 +208,12 @@ namespace Championship
                 Console.WriteLine("6.Відображення команди з найбільшою кількістю ігор у нічию.");
                 Console.WriteLine("7.Відображення команди з найбільшою кількістю забитих голів.");
                 Console.WriteLine("8.Відображення команди з найбільшою кількістю пропущених голів.");
+                Console.WriteLine("9.Топ-3 команди, які забили найбільше голів");
+                Console.WriteLine("10.Команда, яка забила найбільше голів");
+                Console.WriteLine("11.Топ-3 команди, які пропустили найменьше всього голів");
+                Console.WriteLine("12.Команда, яка пропустила найменьше всього голів");
+                Console.WriteLine("13.Топ-3 команди, які набрали найбільше очок");
+                Console.WriteLine("14.Команду, яка набрала найбільше очок");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -208,6 +222,7 @@ namespace Championship
                         break;
                     case 1:
                         TeamByName();
+                        EndFunc();
                         break;
                     case 2:
                         TeamByTownName();
@@ -230,8 +245,126 @@ namespace Championship
                     case 8:
                         WorstTeamByLoosingGoals();
                         break;
+                    case 9:
+                        TopTeamsByGoals();
+                        break;
+                    case 10:
+                        BestTeamByGoals();
+                        break;
+                    case 11:
+                        TopTeamsByNotConcededGoals();
+                        break;
+                    case 12:
+                        TopTeamByNotConcededGoals();
+                        break;
+                    case 13:
+                        TopTeamByPoints();
+                        break;
+                    case 14:
+                        TopTeamByPoints();
+                        break;
+                    default:
+                        break;
                 }
             }
+        }
+
+        private static void TopTeamByPoints()
+        {
+            List<int> goals = new List<int>();
+            Console.Clear();
+            for (int i = 0; i < teams.Count; i++)
+            {
+                int points = teams[i].Wins * 3 + teams[i].Draws;
+                goals.Add(points);
+            }
+            goals.Sort();
+            Console.WriteLine(goals[goals.Count - 1]);
+            EndFunc();
+        }
+
+        private static void TopTeamByNotConcededGoals()
+        {
+            List<int> goals = new List<int>();
+            Console.Clear();
+            for (int i = 0; i < teams.Count; i++)
+            {
+                goals.Add(teams[i].GoalsScored);
+            }
+            goals.Sort();
+            Console.WriteLine(goals[goals.Count - 1]);
+            EndFunc();
+        }
+
+        private static void TopTeamsByNotConcededGoals()
+        {
+            List<int> goals = new List<int>();
+            Console.Clear();
+            for (int i = 0; i < teams.Count; i++)
+            {
+                goals.Add(teams[i].GoalsScored);
+            }
+            goals.Sort();
+            Top(goals);
+            EndFunc();
+        }
+
+        private static void BestTeamByGoals()
+        {
+            List<int> goals = new List<int>();
+            Console.Clear();
+            for (int i = 0; i < teams.Count; i++)
+            {
+                goals.Add(teams[i].GoalsScored);
+            }
+            goals.Sort();
+            Console.WriteLine(goals[goals.Count - 1]);
+            EndFunc();
+        }
+
+        private static void Top(List<int> top)
+        {
+            foreach (var item in teams)
+            {
+                if (item.GoalsScored == top[top.Count - 1])
+                {
+                    TeamByName(item.Name);
+                    break;
+                }
+            }
+            Console.WriteLine();
+            foreach (var item in teams)
+            {
+                if(item.GoalsScored == top[top.Count - 2])
+                {
+                    TeamByName(item.Name);
+                    break;
+                }
+            }
+            Console.WriteLine();
+            foreach (var item in teams)
+            {
+                if (item.GoalsScored == top[top.Count - 3])
+                {
+                    TeamByName(item.Name);
+                    break;
+                }
+            }
+            Console.WriteLine();
+        }
+
+        private static void TopTeamsByGoals()
+        {
+            List<int> goals = new List<int>();
+            Console.Clear();
+            for (int i = 0; i < teams.Count; i++)
+            {
+                goals.Add(teams[i].GoalsScored);
+            }
+            goals.Sort();
+            Top(goals);
+            EndFunc();
+            
         }
 
         private static void WorstTeamByLoosingGoals()
@@ -250,6 +383,7 @@ namespace Championship
                 if (item.GoalsConceded == max)
                 {
                     TeamByName(item.Name);
+                    EndFunc();
                     break;
                 }
             }
@@ -271,6 +405,7 @@ namespace Championship
                 if (item.GoalsScored == max)
                 {
                     TeamByName(item.Name);
+                    EndFunc();
                     break;
                 }
             }
@@ -292,6 +427,7 @@ namespace Championship
                 if (item.Draws == max)
                 {
                     TeamByName(item.Name);
+                    EndFunc();
                     break;
                 }
             }
@@ -313,6 +449,7 @@ namespace Championship
                 if (item.Defeats == max)
                 {
                     TeamByName(item.Name);
+                    EndFunc();
                     break;
                 }
             }
@@ -334,6 +471,7 @@ namespace Championship
                 if (item.Wins == max)
                 {
                     TeamByName(item.Name);
+                    EndFunc();
                     break;
                 }
             }
@@ -422,7 +560,6 @@ namespace Championship
         private static void TeamByName(string? name)
         {
             Console.Clear();
-            Console.Clear();
             foreach (var team in teams)
             {
                 if (team.Name == name)
@@ -436,7 +573,6 @@ namespace Championship
                     Console.WriteLine($"GoalsConceded: {team.GoalsConceded}");
                 }
             }
-            EndFunc();
         }
 
         static private void EndFunc()

@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Championship", "Championship\Championship.csproj", "{B4E1B50C-471A-4639-8F7A-38C612185A3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Championship", "Championship\Championship.csproj", "{B4E1B50C-471A-4639-8F7A-38C612185A3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Championship.DAL", "Championship.DAL\Championship.DAL.csproj", "{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Championship.DAL", "Championship.DAL\Championship.DAL.csproj", "{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{133A36B7-3206-4CE8-99CF-E7D4D34AEC5F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
