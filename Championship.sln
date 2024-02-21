@@ -12,6 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Championship.Test", "Championship.Test\Championship.Test.csproj", "{8ECB062F-E711-4551-9ADC-A78EE9407D2E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9} = {3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +31,10 @@ Global
 		{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FA8B2E2-D7F0-4383-A95E-288A4F7CB4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ECB062F-E711-4551-9ADC-A78EE9407D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ECB062F-E711-4551-9ADC-A78EE9407D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ECB062F-E711-4551-9ADC-A78EE9407D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ECB062F-E711-4551-9ADC-A78EE9407D2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

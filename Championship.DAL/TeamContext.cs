@@ -7,10 +7,15 @@ namespace Championship.DAL
     public class TeamContext : DbContext
     {
 
+        public TeamContext(DbContextOptions<TeamContext> options) : base(options)
+        {}
 
-        public DbSet<Team> Teams { get; set; } 
+        public TeamContext()
+        {}
 
-        public DbSet<Matches> Matches { get; set; }
+        public DbSet<Team>? Teams { get; set; } 
+
+        public DbSet<Matches>? Matches { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
